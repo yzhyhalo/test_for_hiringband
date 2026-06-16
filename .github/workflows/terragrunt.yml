@@ -1,0 +1,36 @@
+name: 'Terragrunt GitHub Actions'
+on:
+  pull_request:
+      branches: [ "main", "dev" ]
+      paths:    [ "infra" ]
+
+jobs:
+  terragrunt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+
+      # Assuming you have a mise.toml file in your repository.
+      - name: Install Terragrunt and OpenTofu
+        uses: gruntwork-io/terragrunt-action@v3
+        # Note: no tg_command specified, so terragrunt won't be executed
+
+      # If you don't have a mise.toml file in your repository, you can specify tool version directly.
+      # - name: Install Terragrunt and OpenTofu
+      #   uses: gruntwork-io/terragrunt-action@v3
+      #   with:
+      #     tg_version: '0.82.2'
+      #     tofu_version: '1.10.1'
+
+      - name: Run terragrunt plan
+        run: |
+          cd infrastructure/
+          terragrunt plan
+
+      - name: Run terragrunt apply
+        if: github.ref == 'refs/heads/main'
+        run: |
+          cd infra/envs/${GITHUB_REF}
+          terragrunt init --backend-bootstrap  --non-interactive apply
+          terragrunt apply --non-interactive 

@@ -1,0 +1,13 @@
+name: CI
+
+on: pull_request
+
+permissions: {}
+
+jobs:
+  linter-codebase:
+    uses: ./.github/workflows/lint.yml
+  linter-infra:
+    uses: ./.github/workflows/lint_infra.yml
+  build-app:
+    uses: ./.github/workflows/build.yml
