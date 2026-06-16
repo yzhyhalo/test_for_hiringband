@@ -1,13 +1,8 @@
 name: check_app
 
 on:
-  push:
-    branches: [ "dev", "stage" ]
-    paths:    [  "app" ]
-  pull_request:
-    branches: [ "dev", "stage" ]
-    paths:    [ "app"  ]
-  workflow_dispatch:
+  workflow_call: 
+
 jobs:
   check_app:
     runs-on: ubuntu-latest
