@@ -8,17 +8,14 @@ on:
     branches: [ "dev", "stage" ]
     paths:    [ "app"  ]
   workflow_dispatch:
-
-
 jobs:
-  build:
-
+  check_app:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working_directory: ./app
-      
-steps:
+        shell: bash
+        working-directory: ./app
+    steps:
     - uses: actions/checkout@v4
     - name: Lint checks
       run: cargo clippy --verbose
