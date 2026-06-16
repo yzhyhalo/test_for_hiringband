@@ -4,13 +4,13 @@ on:
     push:
         workflows: ['check_app']
         types: [completed]
-        branches: ["dev" "stage"]
+        branches: ["dev", "stage"]
         paths: ["app"]
 
     pull_request:
         workflows: ['check_app']
         types: [completed]
-        branches: ["dev" "stage"]
+        branches: ["dev" ,"stage"]
         paths: ["app"]
     workflow_dispatch:
 
