@@ -1,11 +1,5 @@
 name: 'Terragrunt GitHub Actions'
 on:
-  pull_request:
-      branches: [ "stage", "dev" ]
-      paths:    [ "infra" ]
-  push:
-      branches: [ "stage", "dev" ]
-      paths:    [ "infra" ]
   workflow_dispatch:
 
 jobs:
