@@ -1,7 +1,10 @@
 name: 'Terragrunt GitHub Actions'
 on:
   pull_request:
-      branches: [ "main", "dev" ]
+      branches: [ "stage", "dev" ]
+      paths:    [ "infra" ]
+  push:
+      branches: [ "stage", "dev" ]
       paths:    [ "infra" ]
 
 jobs:
