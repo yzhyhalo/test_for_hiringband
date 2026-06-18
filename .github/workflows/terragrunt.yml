@@ -33,16 +33,10 @@ jobs:
 
       - name: Run terragrunt plan
         run: |
-          export AWS_ACCESS_KEY_ID= ${{ env.AWS_ACCESS_KEY_ID }}
-          export AWS_SECRET_ACCESS_KEY=${{ env.AWS_SECRET_ACCESS_KEY }}
-          export AWS_DEFAULT_REGION=${{ env.AWS_DEFAULT_REGION }}
           terragrunt init 
           terragrunt plan
 
       - name: Run terragrunt apply
         run: |
-          export AWS_ACCESS_KEY_ID= ${{ env.AWS_ACCESS_KEY_ID }}
-          export AWS_SECRET_ACCESS_KEY=${{ env.AWS_SECRET_ACCESS_KEY }}
-          export AWS_DEFAULT_REGION=${{ env.AWS_DEFAULT_REGION }}
           terragrunt init --backend-bootstrap  --non-interactive apply
           terragrunt apply --non-interactive
