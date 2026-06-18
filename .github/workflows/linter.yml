@@ -35,4 +35,7 @@ jobs:
         uses: super-linter/super-linter@v8.6.0 # x-release-please-version
         env:
           # To report GitHub Actions status checks
+          FIX_RUST_2024:	true
+          FIX_YAML_PRETTIER: true
+          FIX_MARKDOWN_PRETTIER: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
