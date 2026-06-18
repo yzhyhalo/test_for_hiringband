@@ -12,7 +12,6 @@ jobs:
       AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
     defaults:
       run:
-        shell: bash
         working-directory: ./app
     steps:
       - name: Checkout repo
