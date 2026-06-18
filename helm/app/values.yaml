@@ -3,7 +3,7 @@ replicaCount: 1
 image:
   repository: 637423298449.dkr.ecr.us-west-2.amazonaws.com/dev-cluster-1-app-img
   pullPolicy: IfNotPresent
-  tag: ""
+  tag: "latest"
 
 serviceAccount:
   create: true
