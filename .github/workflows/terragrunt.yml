@@ -28,7 +28,7 @@ jobs:
 
       - name: Run terragrunt plan
         run: |
-          cd infra/envs/${GITHUB_REF}
+          cd infra/envs/${github.ref_name }
           terragrunt plan
 
       - name: Run terragrunt apply
