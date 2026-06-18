@@ -25,7 +25,7 @@ jobs:
           role-session-name: MySessionName
           
       - name: Login to Amazon ECR
-        id: dev-cluster-1-app-img
+        id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
         
       - name: Build, tag, and push docker image to Amazon ECR
