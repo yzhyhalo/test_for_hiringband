@@ -6,9 +6,7 @@ concurrency:
   group: production-deploy
   queue: max
 jobs:
-  
-  environment: ${{GITHUB_REF}}
-  #LINTING-TESTING STAGE
+    #LINTING-TESTING STAGE
   linter:
     uses: ./.github/workflows/linter.yml
   check-app:
