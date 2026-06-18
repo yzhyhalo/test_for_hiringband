@@ -19,8 +19,9 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4 # More information on this action can be found below in the 'AWS Credentials' section
         with:
-          role-to-assume:  ${{ secrets.AWS_ACTIONS_ROLE }}
-          aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+          aws-region: us-east-2
+          role-to-assume: arn:aws:iam::123456789100:role/my-github-actions-role
+          role-session-name: MySessionName
       - name: Login to Amazon ECR
         id: dev-cluster-1-app-img
         uses: aws-actions/amazon-ecr-login@v2
