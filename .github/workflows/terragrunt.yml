@@ -32,7 +32,6 @@ jobs:
           terragrunt plan
 
       - name: Run terragrunt apply
-        if: github.ref == 'refs/heads/main'
         run: |
           cd infra/envs/${GITHUB_REF}
           terragrunt init --backend-bootstrap  --non-interactive apply
