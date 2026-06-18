@@ -2,6 +2,7 @@ name: Release Charts
 
 # run after validate workflow has completed and the current branch is 'beta'
 on:
+  workflow_call:
   workflow_run:
     workflows: ["CI"]
     types: [completed]
