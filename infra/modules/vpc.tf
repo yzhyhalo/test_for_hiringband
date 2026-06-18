@@ -1,5 +1,5 @@
 module "vpc" {
-  source  = "terraform-aws-modules/vpc/aws"
+  source = "terraform-aws-modules/vpc/aws"
 
   name = "${local.cluster_name}-vpc"
   cidr = var.main_network_block
@@ -16,7 +16,7 @@ module "vpc" {
   enable_dns_support           = true
   enable_dns_hostnames         = true
   reuse_nat_ips                = true
-  external_nat_ip_ids          = [aws_eip.nat_gw_elastic_ip.id] 
+  external_nat_ip_ids          = [aws_eip.nat_gw_elastic_ip.id]
 
   public_subnet_tags = {
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
