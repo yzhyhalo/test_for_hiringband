@@ -20,7 +20,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4 # More information on this action can be found below in the 'AWS Credentials' section
         with:
           aws-region: us-east-2
-          role-to-assume: arn:aws:iam::123456789100:role/my-github-actions-role
+          role-to-assume: arn:aws:iam::637423298449:role/github-oidc-provider-aws
           role-session-name: MySessionName
       - name: Login to Amazon ECR
         id: dev-cluster-1-app-img
