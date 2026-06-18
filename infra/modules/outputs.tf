@@ -12,4 +12,7 @@ output "ecr_app_repository_name" {
   value = aws_ecr_repository.ecr_repo.name
 }
 
+output "github_role" {
+  value = module.github-oidc.oidc_role
+}
 

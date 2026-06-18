@@ -2,10 +2,14 @@ data "aws_availability_zones" "available" {}
 
 data "aws_eks_cluster" "cluster" {
   name = module.eks.cluster_name
+
+  depends_on = [module.eks.cluster_id]
 }
 
 data "aws_eks_cluster_auth" "cluster" {
   name = module.eks.cluster_name
+
+  depends_on = [module.eks.cluster_id]
 }
 
 data "aws_caller_identity" "current" {} # used for accessing Account ID and ARN
@@ -49,21 +53,21 @@ resource "aws_eip" "nat_gw_elastic_ip" {
 
 
 module "eks" {
-  source  = "terraform-aws-modules/eks/aws"
+  source = "terraform-aws-modules/eks/aws"
 
-  name                   = local.cluster_name
-  kubernetes_version                 = "1.33"
-  endpoint_public_access = true
+  name                                     = local.cluster_name
+  kubernetes_version                       = "1.33"
+  endpoint_public_access                   = true
   enable_cluster_creator_admin_permissions = true
 
 
   addons = {
-    coredns                = {}
+    coredns = {}
     eks-pod-identity-agent = {
       before_compute = true
     }
-    kube-proxy             = {}
-    vpc-cni                = {
+    kube-proxy = {}
+    vpc-cni = {
       before_compute = true
     }
   }
@@ -87,7 +91,7 @@ module "eks" {
   }
 
   # Extend node-to-node security group rules
- node_security_group_additional_rules = {
+  node_security_group_additional_rules = {
     ingress_self_all = {
       description = "Node to node all ports/protocols"
       protocol    = "-1"
@@ -111,7 +115,7 @@ module "eks" {
   eks_managed_node_groups = {
 
     system = {
-      ami_type       = "AL2023_x86_64_STANDARD"
+      ami_type     = "AL2023_x86_64_STANDARD"
       min_size     = 1
       max_size     = 3
       desired_size = 1
@@ -205,64 +209,75 @@ data "aws_iam_policy_document" "cluster_autoscaler" {
   }
 }
 
+resource "helm_release" "ingress-nginx" {
+  name             = "ingress-nginx"
+  namespace        = "ingress-nginx"
+  repository       = "https://kubernetes.github.io/ingress-nginx"
+  chart            = "ingress-nginx"
+  create_namespace = true
+
+  depends_on = [module.eks.cluster_id]
+}
+
 resource "helm_release" "cluster-autoscaler" {
   name             = "cluster-autoscaler"
   namespace        = local.autoscaler_service_account_namespace
   repository       = "https://kubernetes.github.io/autoscaler"
   chart            = "cluster-autoscaler"
   create_namespace = false
+  depends_on       = [module.eks.cluster_id]
 
-  set  = [{
+  set = [{
     name  = "cloudProvider"
     value = "aws"
-  },
-   {
-    name  = "awsRegion"
-    value = var.region
-  },
+    },
+    {
+      name  = "awsRegion"
+      value = var.region
+    },
 
-   {
-    name  = "rbac.create"
-    value = true
-  },
+    {
+      name  = "rbac.create"
+      value = true
+    },
 
-   {
-    name  = "rbac.serviceAccount.name"
-    value = local.autoscaler_service_account_name
-  },
+    {
+      name  = "rbac.serviceAccount.name"
+      value = local.autoscaler_service_account_name
+    },
 
-   {
-    name  = "rbac.serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-    value = module.iam_assumable_role_admin.iam_role_arn
-  },
+    {
+      name  = "rbac.serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
+      value = module.iam_assumable_role_admin.iam_role_arn
+    },
 
-   {
-    name  = "autoDiscovery.clusterName"
-    value = module.eks.cluster_name
-  },
+    {
+      name  = "autoDiscovery.clusterName"
+      value = module.eks.cluster_name
+    },
 
-   {
-    name  = "autoDiscovery.enabled"
-    value = "true"
-  },
+    {
+      name  = "autoDiscovery.enabled"
+      value = "true"
+    },
 
-   {
-    name  = "extraArgs.skip-nodes-with-local-storage"
-    value = "false"
-  },
+    {
+      name  = "extraArgs.skip-nodes-with-local-storage"
+      value = "false"
+    },
 
-   {
-    name  = "extraArgs.skip-nodes-with-system-pods"
-    value = "false"
-  },
+    {
+      name  = "extraArgs.skip-nodes-with-system-pods"
+      value = "false"
+    },
 
-   {
-    name  = "extraArgs.scale-down-enabled"
-    value = "true"
-  },
+    {
+      name  = "extraArgs.scale-down-enabled"
+      value = "true"
+    },
 
-   {
-    name  = "extraArgs.scale-down-unneeded-time"
-    value = "5m"
+    {
+      name  = "extraArgs.scale-down-unneeded-time"
+      value = "5m"
   }]
 }

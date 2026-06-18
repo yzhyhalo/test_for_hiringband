@@ -1,13 +1,23 @@
 name: CI
 
-on: 
+on:
   push:
+  pull_request:
   workflow_dispatch:
-
+concurrency:
+  group: production-deploy
+  queue: max
 jobs:
-  linter-codebase:
-    uses: ./.github/workflows/lint.yml
-  linter-infra:
-    uses: ./.github/workflows/lint_infra.yml
-  build-app:
+  #LINTING-TESTING STAGE
+  linter:
+    uses: ./.github/workflows/linter.yml
+  check-app:
+    uses: ./.github/workflows/check_app.yml
+  #  check-infra:
+  #    uses: ./.github/workflows/check_infra.yml
+  #BUILD STAGE
+  build:
     uses: ./.github/workflows/build.yml
+  #RELASE HELM APP
+  release:
+    uses: ./.github/workflows/release.yml

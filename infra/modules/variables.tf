@@ -3,6 +3,12 @@ variable "ecr_name" {
   default = "app-img"
 }
 
+variable "project_name" {
+  type        = string
+  default     = "test4hiringband"
+  description = "Prefix to be used on each infrastructure object Name created in AWS."
+}
+
 variable "name_prefix" {
   type        = string
   default     = "cluster-1"

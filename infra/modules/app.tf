@@ -1,7 +1,7 @@
 
 resource "helm_release" "app" {
-  name             = "app"
-  chart      = "../../../../../../helm/app"
+  name  = "app"
+  chart = "../../../../../../helm/app"
   #chart = "${path.root}/../../helm/app"
   cleanup_on_fail  = true
   namespace        = "app"
