@@ -1,6 +1,7 @@
 name: CI
 on:
   workflow_dispatch:
+    
     inputs:
       release_type:
         description: "Select release type"
@@ -21,15 +22,14 @@ jobs:
     #LINTING-TESTING STAGE
   linter:
     uses: ./.github/workflows/linter.yml
+    
   check-app:
     uses: ./.github/workflows/check_app.yml
-    
-  #BUILD-RELEASE STAGE
+  #BUILD STAGE
   build:
     uses: ./.github/workflows/build.yml
-    needs: 
-    - check-app
-#    - linter
+    needs: [check-app,linter]
+  #RELASE HELM APP
   release:
     uses: ./.github/workflows/release.yml
     needs: build
