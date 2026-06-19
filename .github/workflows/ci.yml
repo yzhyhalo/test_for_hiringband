@@ -12,11 +12,14 @@ jobs:
     #LINTING-TESTING STAGE
   linter:
     uses: ./.github/workflows/linter.yml
+    
   check-app:
     uses: ./.github/workflows/check_app.yml
   #BUILD STAGE
   build:
     uses: ./.github/workflows/build.yml
+#    needs: [check-app,linter]
   #RELASE HELM APP
   release:
     uses: ./.github/workflows/release.yml
+    needs: build
