@@ -21,7 +21,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4 # More information on this action can be found below in the 'AWS Credentials' section
         with:
           aws-region: us-west-2
-          role-to-assume: arn:aws:iam::637423298449:role/test
+          role-to-assume: arn:aws:iam::637423298449:role/github-oidc-provider-aws
           role-session-name: MySessionName
           
       - name: Login to Amazon ECR
