@@ -1,7 +1,16 @@
 name: CI
-
 on:
   workflow_dispatch:
+    inputs:
+      release_type:
+        description: "Select release type"
+        required: true
+        default: "patch"
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
 concurrency:
 
   group: production-deploy
