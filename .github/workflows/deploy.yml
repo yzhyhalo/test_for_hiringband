@@ -20,13 +20,17 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
-      - name: Setup AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2.2.0
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4 # More information on this action can be found below in the 'AWS Credentials' section
+        with:
+          aws-region: us-west-2
+          role-to-assume: arn:aws:iam::637423298449:role/github-oidc-provider-aws
+          role-session-name: EKS_Deploy_Session
 
       - name: Install & upgrade Helm chart on EKS
         uses: open-source-srilanka/eks-helm-client-github-action@v1.0.0
         env:
-          REGION_CODE: us-west-02
+          REGION_CODE: us-west-2
           CLUSTER_NAME: test4hiringband-cluster-${{GITHUB.ref_name}}
         with:
           args: >
