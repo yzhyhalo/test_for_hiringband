@@ -11,7 +11,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  deploy:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -20,7 +20,18 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Deploy App
+      - name: Setup AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2.2.0
 
+      - name: Install & upgrade Helm chart on EKS
+        uses: open-source-srilanka/eks-helm-client-github-action@v1.0.0
+        env:
+          REGION_CODE: us-west-02
+          CLUSTER_NAME: test4hiringband-cluster-${{GITHUB.ref_name}}
+        with:
+          args: >
+            bash -c "
+            helm repo add bitnami https://charts.bitnami.com/bitnami;
+            helm repo update;
+            helm install bitnami/mysql --generate-name
+           "

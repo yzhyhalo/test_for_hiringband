@@ -1,5 +1,5 @@
 # Use a base image with the latest version of Rust installed
-FROM rust:latest AS builder
+FROM rust:1.9 AS builder
 
 # Set the working directory in the container
 WORKDIR /app
@@ -16,7 +16,7 @@ RUN strip target/release/app
 
 
 # Use a slim image for running the application
-FROM alpine:latest AS runtime
+FROM alpine:3 AS runtime
 
 ENV PORT=8000
 # Copy only the compiled binary from the builder stage to this image

@@ -1,5 +1,5 @@
 resource "aws_ecr_repository" "ecr_repo" {
-  name = "${var.environment}-${var.name_prefix}-${var.ecr_name}"
+  name = "${var.environment}-${var.name_prefix}-app"
   image_scanning_configuration {
     scan_on_push = true
   }
@@ -23,34 +23,66 @@ module "github-oidc" {
   create_oidc_role     = true
 
   repositories              = ["yzhyhalo/test_for_hiringband"]
-  oidc_role_attach_policies = [aws_iam_policy.git_actions.arn]
+  oidc_role_attach_policies = [aws_iam_policy.git_actions_ecr.arn,aws_iam_policy.git_actions_eks.arn]
 }
 
 
-resource "aws_iam_policy" "git_actions" {
+resource "aws_iam_policy" "git_actions_ecr" {
   name_prefix = "${var.project_name}-git-actions"
   description = "Policy to manage ECR ${var.project_name}"
-  policy      = data.aws_iam_policy_document.git_actions.json
+  policy      = data.aws_iam_policy_document.git_actions_ecr.json
+}
+
+resource "aws_iam_policy" "git_actions_eks" {
+  name_prefix = "${var.project_name}-git-actions"
+  description = "Policy to manage ECR ${var.project_name}"
+  policy      = data.aws_iam_policy_document.git_actions_eks.json
 }
 
 
-data "aws_iam_policy_document" "git_actions" {
+data "aws_iam_policy_document" "git_actions_eks" {
   statement {
-    sid    = "clusterAutoscalerAll"
+    sid    = ""
     effect = "Allow"
 
     actions = [
-      "ecr:GetAuthorizationToken",
-      "ecr:BatchGetImage",
-      "ecr:BatchCheckLayerAvailability",
-      "ecr:CompleteLayerUpload",
-      "ecr:GetDownloadUrlForLayer",
-      "ecr:InitiateLayerUpload",
-      "ecr:PutImage",
-      "ecr:UploadLayerPart"
+      "eks:*",
+    ]
+
+    resources = [
+      module.eks.cluster_arn 
+    ]
+  
+  
+  }
+}
+
+data "aws_iam_policy_document" "git_actions_ecr" {
+  statement {
+    sid    = ""
+    effect = "Allow"
+
+    actions = [
+                "ecr:GetAuthorizationToken",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetRepositoryPolicy",
+                "ecr:DescribeRepositories",
+                "ecr:ListImages",
+                "ecr:DescribeImages",
+                "ecr:BatchGetImage",
+                "ecr:GetLifecyclePolicy",
+                "ecr:GetLifecyclePolicyPreview",
+                "ecr:ListTagsForResource",
+                "ecr:DescribeImageScanFindings",
+                "ecr:InitiateLayerUpload",
+                "ecr:UploadLayerPart",
+                "ecr:CompleteLayerUpload",
+                "ecr:PutImage"
     ]
 
     resources = ["*"]
+  
   }
 
 }

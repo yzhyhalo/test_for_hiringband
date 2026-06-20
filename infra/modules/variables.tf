@@ -11,7 +11,7 @@ variable "project_name" {
 
 variable "name_prefix" {
   type        = string
-  default     = "cluster-1"
+  default     = "cluster"
   description = "Prefix to be used on each infrastructure object Name created in AWS."
 }
 

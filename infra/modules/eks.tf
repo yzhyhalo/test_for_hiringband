@@ -16,7 +16,7 @@ data "aws_caller_identity" "current" {} # used for accessing Account ID and ARN
 
 # render Admin & Developer users list with the structure required by EKS module
 locals {
-  cluster_name = "${var.name_prefix}-${var.environment}"
+  cluster_name = "${var.project_name}-${var.name_prefix}-${var.environment}"
 
   autoscaler_service_account_namespace = "kube-system"
   autoscaler_service_account_name      = "cluster-autoscaler-aws"
@@ -51,6 +51,25 @@ resource "aws_eip" "nat_gw_elastic_ip" {
   }
 }
 
+module "ebs_csi_driver_irsa" {
+  source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts"
+
+  name = "ebs-csi"
+
+  attach_ebs_csi_policy = true
+
+  oidc_providers = {
+    this = {
+      provider_arn               = module.eks.oidc_provider_arn
+      namespace_service_accounts = ["kube-system:ebs-csi-controller-sa"]
+    }
+  }
+
+  tags = {
+    Terraform   = "true"
+    Environment = "dev"
+  }
+}
 
 module "eks" {
   source = "terraform-aws-modules/eks/aws"
@@ -67,6 +86,9 @@ module "eks" {
       before_compute = true
     }
     kube-proxy = {}
+    aws-ebs-csi-driver = {
+      service_account_role_arn = module.ebs_csi_driver_irsa.arn
+    }
     vpc-cni = {
       before_compute = true
     }

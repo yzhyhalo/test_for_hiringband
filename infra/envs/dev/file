@@ -1,0 +1,4 @@
+cluster_endpoint = "https://0F67F2037973E10C1193592A037C3C9E.sk1.us-west-2.eks.amazonaws.com"
+cluster_security_group_id = "sg-0fbff6ca48c7f680e"
+ecr_app_repository_name = "dev-cluster-1-app-img"
+github_role = "arn:aws:iam::637423298449:role/github-oidc-provider-aws"

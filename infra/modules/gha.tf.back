@@ -1,0 +1,40 @@
+odule "iam_role_github_oidc" {
+  source    = "terraform-aws-modules/iam/aws//modules/iam-role"
+
+  enable_github_oidc = true
+
+  # This should be updated to suit your organization, repository, references/branches, etc.
+  oidc_wildcard_subjects = ["yzhyhalo/test_for_hiringband:*"]
+
+  policies = {
+    S3ReadOnly = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+  }
+
+  tags = {
+    Terraform   = "true"
+    Environment = "dev"
+  }
+}
+
+
+module "vpc_cni_irsa" {
+  source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts"
+
+  name   = "vpc-cni"
+
+  attach_vpc_cni_policy = true
+  vpc_cni_enable_ipv4   = true
+
+  oidc_providers = {
+    this = {
+      provider_arn               = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/${replace(module.eks.cluster_oidc_issuer_url, "https://","")}"
+      namespace_service_accounts = ["kube-system:aws-node"]
+    
+  }
+
+  tags = {
+    Terraform   = "true"
+    Environment = "dev"
+  }
+}
+}
