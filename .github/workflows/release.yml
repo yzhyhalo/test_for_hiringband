@@ -22,9 +22,6 @@ on:
           - both_helm_app    
 jobs:
   change-version:
-    outputs:
-      app_ver: ${{ steps.update.outputs.app_ver }}
-      helm_ver: ${{ steps.update.outputs.helm_ver }}
     runs-on: ubuntu-latest
     steps:
     - name: checkout
@@ -32,10 +29,11 @@ jobs:
     - name: update version
       id: update
       run: |
-        ./release.sh ${{inputs.release_scope}} ${{inputs.release_type}}
-        ./version.sh ${{inputs.release_scope}}
-        echo "app_ver=$(cat app_version)" >> $GITHUB_ENV
-        echo "helm_ver=$(cat helm_version)" >> $GITHUB_ENV
+        ./release.sh ${{inputs.release_scope}} ${{inputs.release_type}} 
+        app_ver=$(cat app_version)
+        helm_ver=$(cat helm_version)
+        echo "app_ver=$(app_ver)" >> $GITHUB_ENV
+        echo "helm_ver=$(helm_ver)" >> $GITHUB_ENV
     - name: push
       uses: github-actions-x/commit@v2.9
       with:
@@ -43,6 +41,6 @@ jobs:
         push-branch: ${{github.ref_name}}
         commit-message: ' app:${{ steps.update.outputs.app_ver }} helm:${{ steps.update.outputs.helm_ver }} '
         force-add: 'true'
-        files: helm_version app_version app/Cargo.toml helm/app/Chart.yaml helm/app/values.yaml
+        files: helm_version app_version
         name: Release
         email: my.github@email.com 
