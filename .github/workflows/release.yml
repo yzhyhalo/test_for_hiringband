@@ -1,8 +1,6 @@
-
-name: release 
+name: Release new version
 on:
   workflow_dispatch:
-    branches: ["dev"]
     inputs:
       release_type:
         description: "Select release type"
@@ -21,12 +19,7 @@ on:
         options:
           - helm
           - app
-          - both_helm_app
-
-  group: production-deploy
-  queue: max
-
-    
+          - both_helm_app    
 jobs:
   change-version:
     runs-on: ubuntu-latest
