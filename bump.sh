@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # version.sh
-# USAGE : ./version.sh <major|minor|patch> <file>
+# USAGE : ./bump.sh <major|minor|patch> <file>
 
 current_version=$(cat $2)
 
