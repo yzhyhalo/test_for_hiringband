@@ -31,6 +31,11 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      - name: Secret Scanning
+        uses: trufflesecurity/trufflehog@main
+        with:
+          extra_args: --results=verified,unknown
+
       - name: Super-linter
         uses: super-linter/super-linter@v8.6.0 # x-release-please-version
         env:
