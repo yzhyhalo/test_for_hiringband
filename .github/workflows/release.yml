@@ -27,17 +27,17 @@ jobs:
     - name: checkout
       uses: actions/checkout@master
     - name: update version
+      id: update
       run: |
         ./release.yml ${{inputs.release_scope}} ${{inputs.release_type}} 
-    
-        echo "app_ver=$(cat helm_version)" >> $GITHUB_ENV
+        echo "app_ver=$(cat app_version)" >> $GITHUB_ENV
         echo "helm_ver=$(cat helm_version)" >> $GITHUB_ENV
     - name: push
       uses: github-actions-x/commit@v2.9
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         push-branch: ${{github.ref_name}}
-        commit-message: '${{helm_ver}} $helm_ver ${{app_ver}}'
+        commit-message: ' app:${{ steps.update.outputs.app_ver }} helm:${{ steps.update.outputs.helm_ver }} '
         force-add: 'true'
         files: helm_version app_version
         name: Release
