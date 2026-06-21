@@ -47,5 +47,6 @@ jobs:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: app
         run: |
+          VERSION=$(cat ../helm_version)
           helm package $REPOSITORY
-          helm push $REPOSITORY-0.1.0.tgz oci://$REGISTRY
+          helm push $REPOSITORY-$VERSION.tgz oci://$REGISTRY
