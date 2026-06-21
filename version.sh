@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # version.sh
-# USAGE : ./version.sh <major|minor|patch> <fi
+# USAGE : ./version.sh <helm|app|both_helm_app> <fi
 
 
 helm_version=$(cat helm_version)
