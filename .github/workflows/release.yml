@@ -29,7 +29,8 @@ jobs:
     - name: update version
       id: update
       run: |
-        ./release.sh ${{inputs.release_scope}} ${{inputs.release_type}} 
+        ./release.sh ${{inputs.release_scope}} ${{inputs.release_type}}
+        ./version.sh ${{inputs.release_scope}}
         echo "app_ver=$(cat app_version)" >> $GITHUB_ENV
         echo "helm_ver=$(cat helm_version)" >> $GITHUB_ENV
     - name: push
@@ -39,6 +40,6 @@ jobs:
         push-branch: ${{github.ref_name}}
         commit-message: ' app:${{ steps.update.outputs.app_ver }} helm:${{ steps.update.outputs.helm_ver }} '
         force-add: 'true'
-        files: helm_version app_version
+        files: helm_version app_version app/Cargo.toml helm/app/Chart.yaml helm/app/values.yaml
         name: Release
         email: my.github@email.com 
