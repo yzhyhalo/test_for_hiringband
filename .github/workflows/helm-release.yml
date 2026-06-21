@@ -1,4 +1,4 @@
-name: Release Charts
+name: Additional Release to Github
 
 # run after validate workflow has completed and the current branch is 'beta'
 on:
