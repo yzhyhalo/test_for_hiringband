@@ -18,7 +18,7 @@ resource "aws_ecr_repository" "ecr_repo" {
 module "github-oidc" {
   source  = "terraform-module/github-oidc-provider/aws"
   version = "~> 1"
-
+  role_name = "github-${var.environment}-oidc-${var.project_name}"
   create_oidc_provider = true
   create_oidc_role     = true
 

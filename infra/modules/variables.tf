@@ -24,7 +24,18 @@ variable "environment" {
   type = string
 }
 
-variable "admin_users" {
+variable "admin_roles" {
+  type        = list(string)
+  default     = []
+  description = "List of Kubernetes admins."
+}
+
+variable "developer_roles" {
+  type        = list(string)
+  default     = []
+  description = "List of Kubernetes developers."
+}
+  variable "admin_users" {
   type        = list(string)
   default     = ["triple-a"]
   description = "List of Kubernetes admins."

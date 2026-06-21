@@ -21,6 +21,33 @@ locals {
   autoscaler_service_account_namespace = "kube-system"
   autoscaler_service_account_name      = "cluster-autoscaler-aws"
 
+  github_role = [
+    {
+      rolearn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/github-${var.environment}-oidc-${var.project_name}"
+      username = "github-${var.environment}-oidc-${var.project_name}"
+      groups = ["system:masters"]
+    }
+  ]
+  admin_user_map_roles = [
+    for admin_role in var.admin_roles :
+    {
+      rolearn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${admin_role}"
+      username = admin_role
+      groups   = ["system:masters"]
+    }
+  ]
+
+  developer_user_map_roles = [
+    for developer_role in var.developer_roles :
+    {
+      rolearn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${developer_role}"
+      username = developer_role
+      groups   = ["${var.name_prefix}-developers"]
+    }
+  ]
+
+
+# reserve Elastic IP to be used in our NAT gateway
   admin_user_map_users = [
     for admin_user in var.admin_users :
     {
@@ -67,7 +94,7 @@ module "ebs_csi_driver_irsa" {
 
   tags = {
     Terraform   = "true"
-    Environment = "dev"
+    Environment = var.environment
   }
 }
 
@@ -148,14 +175,14 @@ module "eks" {
       }
       tags = {
         Terraform   = "true"
-        Environment = "test"
+        Environment = var.environment
       }
     }
   }
 
   tags = {
     Terraform   = "true"
-    Environment = "test"
+    Environment = var.environment
   }
 }
 
@@ -163,8 +190,12 @@ module "eks_auth" {
   source = "aidanmelen/eks-auth/aws"
   eks    = module.eks
 
+  map_roles = concat(local.admin_user_map_roles, local.developer_user_map_roles, local.github_role)
+
+
   # map developer & admin ARNs as kubernetes Users
   map_users = concat(local.admin_user_map_users, local.developer_user_map_users)
+  depends_on = [aws_ecr_repository.ecr_repo] 
 }
 
 # Create IAM role + automatically make it available to cluster autoscaler service account
@@ -182,7 +213,6 @@ module "iam_assumable_role_admin" {
     AutoTag_Creator = data.aws_caller_identity.current.arn
   }
 }
-
 resource "aws_iam_policy" "cluster_autoscaler" {
   name_prefix = "${local.cluster_name}-cluster-autoscaler"
   description = "EKS cluster-autoscaler policy for cluster ${module.eks.cluster_name}"
