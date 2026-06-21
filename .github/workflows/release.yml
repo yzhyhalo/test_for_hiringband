@@ -22,6 +22,9 @@ on:
           - both_helm_app    
 jobs:
   change-version:
+    outputs:
+      app_ver: ${{ steps.update.outputs.app_ver }}
+      helm_ver: ${{ steps.update.outputs.helm_ver }}
     runs-on: ubuntu-latest
     steps:
     - name: checkout
