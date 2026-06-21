@@ -29,7 +29,7 @@ jobs:
     - name: update version
       id: update
       run: |
-        ./release.yml ${{inputs.release_scope}} ${{inputs.release_type}} 
+        ./release.sh ${{inputs.release_scope}} ${{inputs.release_type}} 
         echo "app_ver=$(cat app_version)" >> $GITHUB_ENV
         echo "helm_ver=$(cat helm_version)" >> $GITHUB_ENV
     - name: push
