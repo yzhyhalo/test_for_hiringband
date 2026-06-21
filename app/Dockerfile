@@ -1,5 +1,5 @@
 # Use a base image with the latest version of Rust installed
-FROM rust:1.9 AS builder
+FROM rust:1-bullseye AS builder
 
 # Set the working directory in the container
 WORKDIR /app
