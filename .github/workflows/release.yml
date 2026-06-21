@@ -39,7 +39,7 @@ jobs:
         push-branch: ${{github.ref_name}}
         commit-message: ' app:${{ steps.update.outputs.app_ver }} helm:${{ steps.update.outputs.helm_ver }} '
         force-add: 'true'
-        files: helm_version app_version app/Cargo.toml helm/app/Chart.yaml helm/app/values.yaml
+#        files: helm_version app_version app/Cargo.toml helm/app/Chart.yaml helm/app/values.yaml
         name: 'Release app:${{ steps.update.outputs.app_ver }} helm:${{ steps.update.outputs.helm_ver }} '
         email: my.github@email.com 
         
