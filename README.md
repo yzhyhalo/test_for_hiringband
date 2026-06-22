@@ -1,5 +1,6 @@
 # test_for_hiringband
 
+![Basic flow](diagram.png)
 
 ## Deploy
 
