@@ -1,4 +1,4 @@
-name: "Terragrunt GitHub Actions Create\ Init"
+name: "Terragrunt"
 
 # Controls when the workflow will run
 on:
