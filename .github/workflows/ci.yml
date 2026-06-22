@@ -23,7 +23,6 @@ jobs:
     
   #BUILD-RELEASE STAGE
   build:
-    if: ${{ github.actor == 'Release' }}
     uses: ./.github/workflows/build.yml
     needs: 
     - check-app
