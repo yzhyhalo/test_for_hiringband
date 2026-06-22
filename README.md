@@ -1,7 +1,7 @@
-# test_for_hiringband
+### test_for_hiringband
 
 
-# deploy
+# Deploy
 
 push pr pull to dev branch -> execute manually release in GHA. -> Pick created workflow and press workflow to run\finish
 
@@ -24,7 +24,7 @@ Login into environment folder -> terragrunt plan -> terragrunt apply
 
 need to unite ecr repo for envs
 
-# Accectence criterias
+# Acceptance criterias
 
 [+] reviewer can follow README and run/simulate deployment locally or in a sandbox;
 
