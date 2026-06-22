@@ -51,7 +51,7 @@ jobs:
         author_email: release@github.com
         committer_name: Release
         committer_email: mail@example.com
-        default_author: Release
+        default_author: github_actions
         message: ' app:${{ steps.update.outputs.app_ver }} helm:${{ steps.update.outputs.helm_ver }} '
        # new_branch: custom-new-branch
         pathspec_error_handling: ignore
