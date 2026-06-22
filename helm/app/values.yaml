@@ -3,7 +3,7 @@ replicaCount: 1
 image:
   repository: 637423298449.dkr.ecr.us-west-2.amazonaws.com/app
   pullPolicy: IfNotPresent
-  tag: "7.0.0"
+  tag: "11.0.0"
 
 serviceAccount:
   create: true
