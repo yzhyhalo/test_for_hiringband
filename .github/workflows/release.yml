@@ -33,16 +33,16 @@ jobs:
         echo "app_ver=$(cat app_version)" >> $GITHUB_OUTPUT
         echo "helm_ver=$(cat helm_version)" >> $GITHUB_OUTPUT
         
-    - name: push
-      uses: github-actions-x/commit@v2.9
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        push-branch: ${{github.ref_name}}
-        commit-message: ' app:${{ steps.update.outputs.app_ver }} helm:${{ steps.update.outputs.helm_ver }} '
-        force-add: 'true'
-        files: helm_version app_version app/Cargo.toml helm/app/Chart.yaml helm/app/values.yaml
-        name: 'Release'
-        email: my.github@email.com 
+#    - name: push
+#      uses: github-actions-x/commit@v2.9
+#      with:
+#        github-token: ${{ secrets.GITHUB_TOKEN }}
+#        push-branch: ${{github.ref_name}}
+#        commit-message: ' app:${{ steps.update.outputs.app_ver }} helm:${{ steps.update.outputs.helm_ver }} '
+#        force-add: 'true'
+#        files: helm_version app_version app/Cargo.toml helm/app/Chart.yaml helm/app/values.yaml
+#        name: 'Release'
+#        email: my.github@email.com 
 
     - name: commit new version
       uses: EndBug/add-and-commit@v10 # You can change this to use a specific version.
