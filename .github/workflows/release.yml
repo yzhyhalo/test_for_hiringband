@@ -42,3 +42,22 @@ jobs:
         files: helm_version app_version app/Cargo.toml helm/app/Chart.yaml helm/app/values.yaml
         name: 'Release app:${{ steps.update.outputs.app_ver }} helm:${{ steps.update.outputs.helm_ver }} '
         email: my.github@email.com 
+
+    - name: commit new version
+      uses: EndBug/add-and-commit@v10 # You can change this to use a specific version.
+      with:
+        add: '.'
+        author_name: Release
+        author_email: release@github.com
+        committer_name: Committer Name
+        committer_email: mail@example.com
+    
+        # The local path to the directory where your repository is located. You should use actions/checkout first to set it up.
+        # Default: '.'
+        cwd: './path/to/the/repo'
+        default_author: github_actor
+        message: ' app:${{ steps.update.outputs.app_ver }} helm:${{ steps.update.outputs.helm_ver }} '
+       # new_branch: custom-new-branch
+        pathspec_error_handling: ignore
+        tag: 'app-${{ steps.update.outputs.app_ver }}-helm-${{ steps.update.outputs.helm_ver }}'
+        tag_push: '--force'
