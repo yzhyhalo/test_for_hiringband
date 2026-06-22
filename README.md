@@ -30,17 +30,20 @@ need to unite ecr repo for envs
 ### [+] reviewer can follow README and run/simulate deployment locally or in a sandbox;
 
 ### [-] helm values clearly separate dev and stage;
-
+need to change app
 ### [+] rollback path is documented and realistic;
 
 ### [-] alerts are tied to actual failure modes (not generic placeholders).
+in progress!
 
 ### [+] policy-as-code or linting checks;
 
 ### [-] preview environment strategy;
  
- Need to integrate tf into pipeline
+ Need to integrate tf into pipeline. On it.
 
 ### [+-] release checklist template.
 
 automated via bash, for rollback-deploy ease purpose.
+
+TODO- COmmit message, PR message style context.
