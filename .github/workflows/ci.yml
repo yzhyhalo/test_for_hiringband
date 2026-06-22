@@ -1,10 +1,10 @@
 name: CI
 on:
   workflow_dispatch:
+  workflow_call:
   push:
-    branches:
-      - dev
-      - stage
+    tags:
+      - app-*helm-*
 concurrency:
 
   group: production-deploy
