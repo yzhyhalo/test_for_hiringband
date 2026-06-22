@@ -1,4 +1,4 @@
-name: Create new version Release
+name: Release
 on:
   workflow_dispatch:
     inputs:
