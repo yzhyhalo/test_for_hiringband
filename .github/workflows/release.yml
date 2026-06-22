@@ -49,13 +49,9 @@ jobs:
         add: '.'
         author_name: Release
         author_email: release@github.com
-        committer_name: Committer Name
+        committer_name: Release
         committer_email: mail@example.com
-    
-        # The local path to the directory where your repository is located. You should use actions/checkout first to set it up.
-        # Default: '.'
-        cwd: './path/to/the/repo'
-        default_author: github_actor
+        default_author: Release
         message: ' app:${{ steps.update.outputs.app_ver }} helm:${{ steps.update.outputs.helm_ver }} '
        # new_branch: custom-new-branch
         pathspec_error_handling: ignore
