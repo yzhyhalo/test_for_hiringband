@@ -122,7 +122,7 @@ module "eks" {
   }
 
 
-  create_cloudwatch_log_group = false
+  create_cloudwatch_log_group = true
 
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
@@ -195,7 +195,7 @@ module "eks_auth" {
 
   # map developer & admin ARNs as kubernetes Users
   map_users = concat(local.admin_user_map_users, local.developer_user_map_users)
-  depends_on = [aws_ecr_repository.ecr_repo] 
+  depends_on = [aws_ecr_repository.ecr_repo, module.eks] 
 }
 
 # Create IAM role + automatically make it available to cluster autoscaler service account

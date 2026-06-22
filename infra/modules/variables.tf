@@ -1,6 +1,6 @@
-variable "ecr_name" {
+variable "app_name" {
   type    = string
-  default = "app-img"
+  default = "app"
 }
 
 variable "project_name" {

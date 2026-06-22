@@ -1,0 +1,17 @@
+# Disable HTTPS; expose it via ingress and terminate TLS there
+
+configs:
+
+  params:
+
+    server.insecure: true
+
+
+
+notifications:
+
+  enabled: true
+
+  secret:
+
+    create: false

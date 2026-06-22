@@ -42,7 +42,7 @@ jobs:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
           VERSION=$(cat ../helm_version)
-          helm package $REPOSITORY
+          helm package $REPO_NAME
           helm push $REPO_NAME-$VERSION.tgz oci://$REGISTRY
       # Release to github
       - name: Configure Git to release package
