@@ -46,7 +46,7 @@ jobs:
     - name: commit new version
       uses: EndBug/add-and-commit@v10 # You can change this to use a specific version.
       with:
-        add: '.*'
+        add: 'helm_version app_version app/Cargo.toml helm/app/Chart.yaml helm/app/values.yaml'
         author_name: Release
         author_email: release@github.com
         committer_name: Release
@@ -54,6 +54,6 @@ jobs:
         default_author: github_actions
         message: ' app:${{ steps.update.outputs.app_ver }} helm:${{ steps.update.outputs.helm_ver }} '
        # new_branch: custom-new-branch
-        pathspec_error_handling: ignore
-        tag: 'app-${{ steps.update.outputs.app_ver }}-helm-${{ steps.update.outputs.helm_ver }}'
-        tag_push: '--force'
+  #      pathspec_error_handling: ignore
+ #       tag: 'app-${{ steps.update.outputs.app_ver }}-helm-${{ steps.update.outputs.helm_ver }}'
+ #       tag_push: '--force'
