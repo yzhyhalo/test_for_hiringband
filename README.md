@@ -22,6 +22,8 @@ Login into environment folder -> terragrunt plan -> terragrunt apply
 
 --backend-init might be added to initialize backend
 
+need to unite ecr repo for envs
+
 # Accectence criterias
 
 [+] reviewer can follow README and run/simulate deployment locally or in a sandbox;
@@ -35,7 +37,9 @@ Login into environment folder -> terragrunt plan -> terragrunt apply
 [+] policy-as-code or linting checks;
 
 [-] preview environment strategy;
+ 
+ Need to integrate tf into pipeline
 
-[-] release checklist template.
+[+-] release checklist template.
 
-
+automated via bash, for rollback-deploy ease purpose.
