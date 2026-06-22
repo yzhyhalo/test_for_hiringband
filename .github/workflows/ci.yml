@@ -2,17 +2,15 @@ name: CI
 on:
   workflow_dispatch:
 #  workflow_call: 
-  push:
-    branches:
-      - dev
-      - stage
-    
+
 concurrency:
 
   group: production-deploy
   queue: max
 env: 
+
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
     #LINTING-TESTING STAGE
   linter:
@@ -22,10 +20,12 @@ jobs:
     
   #BUILD-RELEASE STAGE
   build:
+    if: ${{ github.actor == 'Release' }}
     uses: ./.github/workflows/build.yml
     needs: 
     - check-app
 #    - linter
   release:
+    if: ${{ github.actor == 'Release' }}
     uses: ./.github/workflows/release.yml
     needs: build
