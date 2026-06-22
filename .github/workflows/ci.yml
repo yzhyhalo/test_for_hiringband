@@ -1,8 +1,11 @@
 name: CI
 on:
   workflow_dispatch:
-#  workflow_call: 
-
+  workflow_call: 
+  push:
+    branches:
+      - dev
+      - stage
 concurrency:
 
   group: production-deploy
