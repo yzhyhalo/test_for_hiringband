@@ -2,9 +2,8 @@ name: CI
 on:
   workflow_dispatch:
   workflow_call:
-  push:
-    tags:
-      - '*'
+  release:
+    types: [created,published,released]
 
 concurrency:
 
