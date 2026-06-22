@@ -27,7 +27,3 @@ jobs:
     needs: 
     - check-app
 #    - linter
-  release:
-    if: ${{ github.actor == 'Release' }}
-    uses: ./.github/workflows/helm-release.yml
-    needs: build
