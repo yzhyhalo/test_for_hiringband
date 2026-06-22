@@ -4,7 +4,8 @@ on:
   workflow_call:
   push:
     tags:
-      - app-*helm-*
+     - app-*-helm-*
+
 concurrency:
 
   group: production-deploy
