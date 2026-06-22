@@ -57,5 +57,5 @@ jobs:
         message: ' app:${{ steps.update.outputs.app_ver }} helm:${{ steps.update.outputs.helm_ver }} '
        # new_branch: custom-new-branch
   #      pathspec_error_handling: ignore
- #       tag: 'app-${{ steps.update.outputs.app_ver }}-helm-${{ steps.update.outputs.helm_ver }}'
- #       tag_push: '--force'
+        tag: 'app-${{ steps.update.outputs.app_ver }}-helm-${{ steps.update.outputs.helm_ver }}'
+        tag_push: '--force'
