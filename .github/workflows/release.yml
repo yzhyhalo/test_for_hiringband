@@ -42,5 +42,3 @@ jobs:
         files: helm_version app_version app/Cargo.toml helm/app/Chart.yaml helm/app/values.yaml
         name: 'Release app:${{ steps.update.outputs.app_ver }} helm:${{ steps.update.outputs.helm_ver }} '
         email: my.github@email.com 
-  ci:
-    uses: ./.github/workflows/ci.yml
