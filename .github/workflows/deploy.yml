@@ -14,10 +14,13 @@ on:
         type: choice
         default: placeholder
         options:
-          -  app-11.0.0-helm-10.0.2
-          -  app-7.0.0-helm-7.1.16
-          -  app-10.0.0-helm-9.0.0 
-          -  placeholder
+          ["app-11.0.0-helm-10.0.2",
+           "app-7.0.0-helm-7.1.16",
+           "app-10.0.0-helm-9.0.0",
+           "placeholder",
+
+          ]
+          
           
       release_override:
         description: "Override release version with custom"
