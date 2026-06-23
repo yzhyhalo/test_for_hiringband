@@ -9,10 +9,20 @@ on:
         type: string
 
   workflow_call:
-    needs:
-      - helm_ver
-      - app_ver
-      - tag_ver
+    inputs:
+      release_version: 
+        default: "app-11.0.0-helm-10.0.2"
+        type: string
+        required: true
+      helm_ver: 
+        default: "x.x.x"
+        type: string
+        required: true
+      app_ver: 
+        default: "x.x.x"
+        type: string
+        required: true
+
 concurrency:
 
   group: production-deploy
@@ -31,6 +41,10 @@ jobs:
   #BUILD-RELEASE STAGE
   build:
     uses: ./.github/workflows/build.yml
+    with:
+      release-version: ${{ inputs.release_version }}
+      helm_ver: ${{ inputs.helm_ver}}
+      app_ver: ${{ inputs.app_ver}}
     needs: 
     - check-app
 #    - linter
