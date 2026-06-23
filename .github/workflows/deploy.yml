@@ -17,7 +17,7 @@ on:
           ["app-11.0.0-helm-10.0.2",
            "app-7.0.0-helm-7.1.16",
            "app-10.0.0-helm-9.0.0",
-           "placeholder",
+           "placeholderxyz",
 
           ]
           
