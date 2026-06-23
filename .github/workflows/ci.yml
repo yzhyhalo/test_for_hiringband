@@ -42,7 +42,7 @@ jobs:
   build:
     uses: ./.github/workflows/build.yml
     with:
-      release-version: ${{ inputs.release_version }}
+      release_version: ${{ inputs.release_version }}
       helm_ver: ${{ inputs.helm_ver}}
       app_ver: ${{ inputs.app_ver}}
     needs: 
