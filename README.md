@@ -42,8 +42,6 @@ in progress!
  
  Need to integrate tf into pipeline. On it.
 
-### [+-] release checklist template.
-
-automated via bash, for rollback-deploy ease purpose.
+### [+] release checklist template.
 
 TODO- COmmit message, PR message style context.
