@@ -22,6 +22,12 @@ on:
           - both_helm_app    
 jobs:
   change-version:
+    permissions:       
+        pages: write  
+        packages: read # to deploy to Pages
+        contents: read
+        id-token: write 
+        actions: write
     runs-on: ubuntu-latest
     steps:
     - name: checkout
