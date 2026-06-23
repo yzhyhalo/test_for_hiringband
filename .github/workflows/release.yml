@@ -84,7 +84,9 @@ jobs:
       ./.github/workflows/ci.yml
 
   deploy:
-    needs: change-version
+    needs: 
+     - change-version
+     - start-ci
     with:
       release-version: ${{ needs.change-version.outputs.tag_ver}}
       helm_ver: ${{ needs.change-version.outputs.app_ver}}
