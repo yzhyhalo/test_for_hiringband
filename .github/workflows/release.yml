@@ -30,15 +30,22 @@ jobs:
       id: update
       run: |
         ./release.sh ${{inputs.release_scope}} ${{inputs.release_type}} 
+        ./version.sh
         echo "app_ver=$(cat app_version)" >> $GITHUB_OUTPUT
         echo "helm_ver=$(cat helm_version)" >> $GITHUB_OUTPUT
-        ./version.sh
+        echo "tag_ver=app-$(cat app_version)-helm-$(cat helm_version)" >> $GITHUB_OUTPUT
+
+    - name: Add workflow version to deploy.yml
+      id: add
+      run: |
+        sed -i -e    "/"placeholderxyz"/a"${{ steps.update.outputs.tag_ver }}"," .github/workflows/deploy.yml 
+
 
     - name: commit new version
       uses: EndBug/add-and-commit@v10 # You can change this to use a specific version.
       with:
-        add: '*'
-       # add: 'helm_version app_version app/Cargo.toml helm/app/Chart.yaml helm/app/values.yaml'
+        #add: '*' 
+        add: '["helm_version", "app_version" ,"app/Cargo.toml", "helm/app/Chart.yaml", "helm/app/values.yaml",".github/workflows/deploy.yml"]'
         author_name: Release
         author_email: release@github.com
         committer_name: Release
@@ -54,3 +61,4 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         tag_name: 'app-${{ steps.update.outputs.app_ver }}-helm-${{ steps.update.outputs.helm_ver }}'
+
