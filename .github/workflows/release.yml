@@ -86,7 +86,7 @@ jobs:
      - change-version
      - start-ci
     with:
-      release-version: ${{ needs.change-version.outputs.tag_ver}}
+      release_version: ${{ needs.change-version.outputs.release_version}}
       helm_ver: ${{ needs.change-version.outputs.app_ver}}
       app_ver: ${{ needs.change-version.outputs.helm_ver}}
     uses:
