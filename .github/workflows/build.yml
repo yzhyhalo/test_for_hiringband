@@ -44,7 +44,21 @@ jobs:
           VERSION=$(cat ../helm_version)
           helm package $REPO_NAME
           helm push $REPO_NAME-$VERSION.tgz oci://$REGISTRY
-      # Release to github
+      - name: Build & Publish to Github Container Registry
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: ${{ github.actor }}/${{ env.DOCKER_REPO_NAME }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          platforms: linux/amd64,linux/arm64
+          registry: ghcr.io
+          snapshot: false
+          tags: "${{ env.IMAGE_TAG }}"
+
+
+
+
+          # Release to github
       - name: Configure Git to release package
         run: |
           git config user.name "$GITHUB_ACTOR"
