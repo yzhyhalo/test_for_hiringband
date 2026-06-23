@@ -38,7 +38,7 @@ jobs:
     - name: Add workflow version to deploy.yml
       id: add
       run: |
-        sed -i -e    "/"placeholderxyz"/a"${{ steps.update.outputs.tag_ver }}"," .github/workflows/deploy.yml 
+        sed -i -e    "/"placeholderxyz"/a\"${{ steps.update.outputs.tag_ver }}\"," .github/workflows/deploy.yml 
 
 
     - name: commit new version
