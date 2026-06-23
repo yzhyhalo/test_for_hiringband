@@ -22,6 +22,10 @@ on:
           - both_helm_app    
 jobs:
   change-version:
+    outputs:
+      tag_ver: ${{steps.update.outputs.tag_ver}}
+      app_ver: ${{steps.update.outputs.app_ver}}
+      helm_ver: ${{steps.update.outputs.helm_ver}}
     permissions:       
         pages: write  
         packages: read # to deploy to Pages
@@ -41,18 +45,18 @@ jobs:
         echo "app_ver=$(cat app_version)" >> $GITHUB_OUTPUT
         echo "helm_ver=$(cat helm_version)" >> $GITHUB_OUTPUT
         echo "tag_ver=app-$(cat app_version)-helm-$(cat helm_version)" >> $GITHUB_OUTPUT
-
-    - name: Add workflow version to deploy.yml
-      id: add
-      run: |
-        sed -i -e    "/"placeholderxyz"/a\"${{ steps.update.outputs.tag_ver }}\"," .github/workflows/deploy.yml 
+#    - name: Add workflow version to deploy.yml
+#      id: add
+#      run: |
+#        sed -i -e    "/"placeholderxyz"/a\"${{ steps.update.outputs.tag_ver }}\"," .github/workflows/deploy.yml 
 
 
     - name: commit new version
       uses: EndBug/add-and-commit@v10 # You can change this to use a specific version.
       with:
         #add: '*' 
-        add: '["helm_version", "app_version" ,"app/Cargo.toml", "helm/app/Chart.yaml", "helm/app/values.yaml",".github/workflows/deploy.yml"]'
+        add: '["helm_version", "app_version" ,"app/Cargo.toml", "helm/app/Chart.yaml", "helm/app/values.yaml"]'
+          ### ".github/workflows/deploy.yml"]'
         author_name: Release
         author_email: release@github.com
         committer_name: Release
@@ -69,3 +73,11 @@ jobs:
       with:
         tag_name: 'app-${{ steps.update.outputs.app_ver }}-helm-${{ steps.update.outputs.helm_ver }}'
 
+
+  start-ci:
+    with:
+      tag_ver: ${{steps.update.outputs.tag_ver}}
+      app_ver: ${{steps.update.outputs.app_ver}}
+      helm_ver: ${{steps.update.outputs.helm_ver}}
+    uses:
+      ./.github/workflows/ci.yml
