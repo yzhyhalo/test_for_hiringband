@@ -4,7 +4,13 @@ name: Deploy
 
 # Controls when the workflow will run
 on:
-
+  workflow_call:
+    inputs:
+      release_version: 
+        default: "app-11.0.0-helm-10.0.2"
+        type: string
+        required: true
+      
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
     inputs:
@@ -21,7 +27,6 @@ on:
 
           ]
           
-          
       release_override:
         description: "Override release version with custom"
         required: false
@@ -34,6 +39,7 @@ jobs:
   
   # This workflow contains a single job called "build"
   deploy:
+    if:  github.event.workflow_run.conclusion == 'success'
     permissions:
       pages: write  
       packages: read # to deploy to Pages
