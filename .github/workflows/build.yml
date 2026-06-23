@@ -1,7 +1,20 @@
 
 on:
   workflow_call:
-
+    inputs:
+      release_version: 
+        default: "app-x.x.x-helm-x.x.x"
+        type: string
+        required: false
+      app_ver: 
+        default: "x.x.x"
+        type: string
+        required: false
+      helm_ver: 
+        default: "x.x.x"
+        type: string
+        required: false
+        
 jobs:
   build:
     permissions:
@@ -28,13 +41,14 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
-      - name: Build, tag, and push docker image to Amazon ECR
+      - name: Build, tag, and push docker image to Amazon ECR 
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $REGISTRY/$REPO_NAME:$IMAGE_TAG .
+          docker build -t $REGISTRY/$REPO_NAME:$IMAGE_TAG -t $REGISTRY/$REPO_NAME:${{inputs.app_ver}} .
           docker push $REGISTRY/$REPO_NAME:$IMAGE_TAG
+          docker push $REGISTRY/$REPO_NAME:${{inputs.app_ver}}
         
       - name: Package and push helm chart to Amazon ECR
         working-directory: ./helm
@@ -47,13 +61,13 @@ jobs:
       - name: Build & Publish to Github Container Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         with:
-          name: ${{ github.actor }}/${{ env.DOCKER_REPO_NAME }}
+          name: ${{ github.actor }}/${{ env.REPO_NAME }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           platforms: linux/amd64,linux/arm64
           registry: ghcr.io
           snapshot: false
-          tags: "${{ env.IMAGE_TAG }}"
+          tags: "${{inputs.app_ver}}"
 
 
 
