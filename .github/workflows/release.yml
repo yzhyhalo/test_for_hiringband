@@ -75,9 +75,19 @@ jobs:
 
 
   start-ci:
+    needs: change-version
     with:
-      tag_ver: ${{steps.update.outputs.tag_ver}}
-      app_ver: ${{steps.update.outputs.app_ver}}
-      helm_ver: ${{steps.update.outputs.helm_ver}}
+      tag_ver: ${{ needs.change-version.outputs.tag_ver}}
+      helm_ver: ${{ needs.change-version.outputs.app_ver}}
+      app_ver: ${{ needs.change-version.outputs.helm_ver}}
     uses:
       ./.github/workflows/ci.yml
+
+  deploy:
+    needs: change-version
+    with:
+      release-version: ${{ needs.change-version.outputs.tag_ver}}
+      helm_ver: ${{ needs.change-version.outputs.app_ver}}
+      app_ver: ${{ needs.change-version.outputs.helm_ver}}
+    uses:
+      ./.github/workflows/deploy.yml
