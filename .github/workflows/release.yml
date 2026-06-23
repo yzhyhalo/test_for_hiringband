@@ -23,15 +23,13 @@ on:
 jobs:
   change-version:
     outputs:
-      tag_ver: ${{steps.update.outputs.tag_ver}}
+      release_version: ${{steps.update.outputs.release_version}}
       app_ver: ${{steps.update.outputs.app_ver}}
       helm_ver: ${{steps.update.outputs.helm_ver}}
     permissions:       
-        pages: write  
         packages: read # to deploy to Pages
         contents: write
         id-token: write 
-        actions: write
         
     runs-on: ubuntu-latest
     steps:
@@ -44,11 +42,11 @@ jobs:
         ./version.sh
         echo "app_ver=$(cat app_version)" >> $GITHUB_OUTPUT
         echo "helm_ver=$(cat helm_version)" >> $GITHUB_OUTPUT
-        echo "tag_ver=app-$(cat app_version)-helm-$(cat helm_version)" >> $GITHUB_OUTPUT
+        echo "release_version=app-$(cat app_version)-helm-$(cat helm_version)" >> $GITHUB_OUTPUT
 #    - name: Add workflow version to deploy.yml
 #      id: add
 #      run: |
-#        sed -i -e    "/"placeholderxyz"/a\"${{ steps.update.outputs.tag_ver }}\"," .github/workflows/deploy.yml 
+#        sed -i -e    "/"placeholderxyz"/a\"${{ steps.update.outputs.release_version }}\"," .github/workflows/deploy.yml 
 
 
     - name: commit new version
@@ -77,7 +75,7 @@ jobs:
   start-ci:
     needs: change-version
     with:
-      tag_ver: ${{ needs.change-version.outputs.tag_ver}}
+      release_version: ${{ needs.change-version.outputs.release_version}}
       helm_ver: ${{ needs.change-version.outputs.app_ver}}
       app_ver: ${{ needs.change-version.outputs.helm_ver}}
     uses:
