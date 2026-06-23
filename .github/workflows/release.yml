@@ -85,6 +85,7 @@ jobs:
     needs: 
      - change-version
      - start-ci
-
+    with:
+      release_version: ${{ needs.change-version.outputs.release_version}}
     uses:
       ./.github/workflows/deploy.yml
