@@ -42,7 +42,7 @@ jobs:
         ./version.sh
         echo "app_ver=$(cat app_version)" >> $GITHUB_OUTPUT
         echo "helm_ver=$(cat helm_version)" >> $GITHUB_OUTPUT
-        echo "release_version=app-$(cat app_version)-helm-$(cat helm_version)" >> $GITHUB_OUTPUT
+        echo "release_version=app-$(echo $app_ver)-helm-$(echo $helm_ver)" >> $GITHUB_OUTPUT
 #    - name: Add workflow version to deploy.yml
 #      id: add
 #      run: |
